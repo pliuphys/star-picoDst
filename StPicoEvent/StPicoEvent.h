@@ -104,6 +104,10 @@ public:
   void     setHighTowerThreshold(const Int_t i, const Int_t th);
   void     setJetPatchThreshold(const Int_t i, const Int_t th);
 
+ Int_t bcNumber() const;
+ Int_t nTofMatchedPrimaryTracks() const;
+ Int_t nVerticesTofMatched() const;
+
 protected:
   Int_t    mRunId;
   Int_t    mEventId;
@@ -174,6 +178,10 @@ protected:
   UChar_t mHighTowerThreshold[4];
   // Online JP thresholds BEMC only
   UChar_t mJetPatchThreshold[4];
+
+  Int_t mBcNumber;
+  Int_t mNTofMatchedPrimaryTracks;
+  Int_t mNVerticesTofMatched;
 
   ClassDef(StPicoEvent, 1)
 };
@@ -261,4 +269,9 @@ inline Int_t   StPicoEvent::highTowerThreshold(const Int_t i) const { return mHi
 inline void StPicoEvent::setHighTowerThreshold(const Int_t i, const Int_t th) { mHighTowerThreshold[i] = (UChar_t)th; }
 inline Int_t   StPicoEvent::jetPatchThreshold(const Int_t i) const { return mJetPatchThreshold[i]; }
 inline void StPicoEvent::setJetPatchThreshold(const Int_t i, const Int_t th) { mJetPatchThreshold[i] = (UChar_t)th; }
+
+inline Int_t StPicoEvent::bcNumber() const { return mBcNumber; }
+inline Int_t StPicoEvent::nTofMatchedPrimaryTracks() const { return mNTofMatchedPrimaryTracks; }
+inline Int_t StPicoEvent::nVerticesTofMatched() const { return mNVerticesTofMatched; }
+
 #endif
