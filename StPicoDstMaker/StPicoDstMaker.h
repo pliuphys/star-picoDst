@@ -89,6 +89,7 @@ protected:
   void fillBTOWHits();
   void fillBTofHits();
   void fillMtdHits();
+  void fillRpsCollection();
 
  /**
   * Returns various measurements by the BEMC and BSMD detectors corresponding to
@@ -117,6 +118,8 @@ protected:
   /// vertex selection mode `mVtxMode` specified by the user.
   bool selectVertex();
 
+  void setRpMode(const Int_t mode=1); // 0:No RP, 1:RP On
+
   StMuDst*   mMuDst;
   StEmcCollection* mEmcCollection;
   StEmcPosition*   mEmcPosition;
@@ -126,6 +129,7 @@ protected:
   Float_t    mBField;
 
   PicoVtxMode mVtxMode;
+  Int_t       mRpMode;       //! RP ON(=1)/OFF(=0);
 
   TString   mInputFileName;        //! *.list - MuDst or picoDst
   TString   mOutputFileName;       //! FileName
@@ -159,4 +163,5 @@ inline void StPicoDstMaker::setSplit(int split) { mSplit = split; }
 inline void StPicoDstMaker::setCompression(int comp) { mCompression = comp; }
 inline void StPicoDstMaker::setBufferSize(int buf) { mBufferSize = buf; }
 inline void StPicoDstMaker::setVtxMode(PicoVtxMode const vtxMode) { mVtxMode = vtxMode; }
+inline void StPicoDstMaker::setRpMode(const Int_t mode) { mRpMode = mode; }
 #endif

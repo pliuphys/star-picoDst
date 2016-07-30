@@ -108,6 +108,8 @@ public:
  Int_t nTofMatchedPrimaryTracks() const;
  Int_t nVerticesTofMatched() const;
 
+ UInt_t rpTriggerWord() const;
+
 protected:
   Int_t    mRunId;
   Int_t    mEventId;
@@ -182,6 +184,7 @@ protected:
   Int_t mBcNumber;
   Int_t mNTofMatchedPrimaryTracks;
   Int_t mNVerticesTofMatched;
+  UInt_t mRpTriggerWord;
 
   ClassDef(StPicoEvent, 1)
 };
@@ -273,5 +276,7 @@ inline void StPicoEvent::setJetPatchThreshold(const Int_t i, const Int_t th) { m
 inline Int_t StPicoEvent::bcNumber() const { return mBcNumber; }
 inline Int_t StPicoEvent::nTofMatchedPrimaryTracks() const { return mNTofMatchedPrimaryTracks; }
 inline Int_t StPicoEvent::nVerticesTofMatched() const { return mNVerticesTofMatched; }
+
+inline UInt_t StPicoEvent::rpTriggerWord() const { return mRpTriggerWord; }
 
 #endif

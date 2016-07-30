@@ -4,14 +4,16 @@
 //============================================================================================
 const char* StPicoArrays::picoArrayNames [NAllPicoArrays] = {"Event", "Track", "EmcTrigger", "MtdTrigger",
                                                              "BTOWHit", "BTofHit", "MtdHit",
-                                                             "EmcPidTraits", "BTofPidTraits", "MtdPidTraits"
+                                                             "EmcPidTraits", "BTofPidTraits", "MtdPidTraits",
+                                                             "RpsCollection"
                                                             };
 
 //              ARRAY TYPES
 //============================================================================================
 const char* StPicoArrays::picoArrayTypes [NAllPicoArrays] = {"StPicoEvent", "StPicoTrack", "StPicoEmcTrigger", "StPicoMtdTrigger",
                                                              "StPicoBTowHit", "StPicoBTofHit", "StPicoMtdHit",
-                                                             "StPicoBEmcPidTraits", "StPicoBTofPidTraits", "StPicoMtdPidTraits"
+                                                             "StPicoBEmcPidTraits", "StPicoBTofPidTraits", "StPicoMtdPidTraits",
+                                                             "StMuRpsCollection"
                                                             };
 
 //              ARRAY SIZES
@@ -21,7 +23,8 @@ const char* StPicoArrays::picoArrayTypes [NAllPicoArrays] = {"StPicoEvent", "StP
 // only selected picoDst branches
 int StPicoArrays::picoArraySizes [NAllPicoArrays] = {1, 1000, 100, 100,
                                                      100, 100, 100,
-                                                     100, 100, 100
+                                                     100, 100, 100,
+                                                     1
                                                     };
 StPicoArrays::StPicoArrays()
 {}

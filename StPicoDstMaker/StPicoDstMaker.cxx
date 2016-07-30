@@ -29,6 +29,7 @@
 #include "StMuDSTMaker/COMMON/StMuMtdPidTraits.h"
 #include "StMuDSTMaker/COMMON/StMuEmcCollection.h"
 #include "StMuDSTMaker/COMMON/StMuEmcPoint.h"
+#include "StMuDSTMaker/COMMON/StMuRpsCollection.h"
 
 #include "StTriggerUtilities/StTriggerSimuMaker.h"
 #include "StTriggerUtilities/Bemc/StBemcTriggerSimu.h"
@@ -64,6 +65,7 @@ StPicoDstMaker::StPicoDstMaker(char const* name) : StMaker(name),
   mEmcGeom{}, mEmcIndex{},
   mPicoDst(new StPicoDst()), mBField(0),
   mVtxMode(PicoVtxMode::NotSet), // This should always be ::NotSet, do not change it, see ::Init()
+  mRpMode(0),
   mInputFileName(), mOutputFileName(), mOutputFile(nullptr),
   mChain(nullptr), mTTree(nullptr), mEventCounter(0), mSplit(99), mCompression(9), mBufferSize(65536 * 4),
   mModuleToQT{}, mModuleToQTPos{}, mQTtoModule{}, mQTSlewBinEdge{}, mQTSlewCorr{},
@@ -613,6 +615,8 @@ Int_t StPicoDstMaker::MakeWrite()
   fillBTofHits();
   fillMtdHits();
 
+  if (mRpMode) { fillRpsCollection(); }
+
   if (Debug()) mPicoDst->printTracks();
 
   mTTree->Fill();
@@ -1160,4 +1164,17 @@ bool StPicoDstMaker::selectVertex()
 
   // Retrun false if selected vertex is not valid
   return selectedVertex ? true : false;
+}
+void StPicoDstMaker::fillRpsCollection(){
+    if(!mMuDst) {
+	LOG_WARN << " No MuDst for this event " << endm;
+	return;
+    }
+    StMuRpsCollection *rps = (StMuRpsCollection*)(mMuDst->RpsCollection());
+    if(!rps){
+	LOG_WARN << "No RP collection for this event" << endm;
+    }
+    int counter = mPicoArrays[StPicoArrays::RpsCollection]->GetEntries();
+    new((*(mPicoArrays[StPicoArrays::RpsCollection]))[counter]) StMuRpsCollection(*rps);
+
 }
