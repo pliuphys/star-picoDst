@@ -130,7 +130,7 @@ StPicoEvent::StPicoEvent(StMuDst const& muDst) : StPicoEvent()
 
   mRpTriggerWord = (const_cast< StTriggerData *> (ev->triggerData() ) )->pp2ppDSM(0);
   mBcNumber = ev->l0Trigger().bunchCrossingId7bit(ev->runId());
-  StPicoUtilities::numberTofMatchedTracks(muDst, mNVerticesBTofMatched, mNBTofMatchedPrimaryTracks);
+  StPicoUtilities::numberTofMatchedTracks(muDst, mNVerticesTofMatched, mNTofMatchedPrimaryTracks);
 }
 
 StPicoEvent::~StPicoEvent()

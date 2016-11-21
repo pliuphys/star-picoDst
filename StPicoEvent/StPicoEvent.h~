@@ -105,8 +105,8 @@ public:
   void     setJetPatchThreshold(const Int_t i, const Int_t th);
 
  Int_t bcNumber() const;
- Int_t nBTofMatchedPrimaryTracks() const;
- Int_t nVerticesBTofMatched() const;
+ Int_t nTofMatchedPrimaryTracks() const;
+ Int_t nVerticesTofMatched() const;
 
  UInt_t rpTriggerWord() const;
 
