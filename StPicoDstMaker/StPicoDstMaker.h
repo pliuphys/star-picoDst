@@ -93,6 +93,7 @@ protected:
   void fillBTOWHits();
   void fillBTofHits();
   void fillMtdHits();
+  void fillFmsHits();
 
  /**
   * Returns various measurements by the BEMC and BSMD detectors corresponding to

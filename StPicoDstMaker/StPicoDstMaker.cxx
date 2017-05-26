@@ -50,6 +50,7 @@
 #include "StPicoEvent/StPicoBTowHit.h"
 #include "StPicoEvent/StPicoBTofHit.h"
 #include "StPicoEvent/StPicoMtdHit.h"
+#include "StPicoEvent/StPicoFmsHit.h"
 #include "StPicoEvent/StPicoBEmcPidTraits.h"
 #include "StPicoEvent/StPicoBTofPidTraits.h"
 #include "StPicoEvent/StPicoMtdPidTraits.h"
@@ -57,6 +58,11 @@
 #include "StPicoDstMaker/StPicoArrays.h"
 #include "StPicoDstMaker/StPicoDst.h"
 
+//For FMS access
+#include "StEvent/StEvent.h"
+#include "StFmsCollection.h"
+#include "StFmsHit.h"
+#include "StFmsDbMaker/StFmsDbMaker.h"
 
 //_____________________________________________________________________________
 StPicoDstMaker::StPicoDstMaker(char const* name) : StMaker(name),
@@ -161,6 +167,7 @@ void  StPicoDstMaker::streamerOff()
   StPicoBTofHit::Class()->IgnoreTObjectStreamer();
   StPicoBTowHit::Class()->IgnoreTObjectStreamer();
   StPicoMtdHit::Class()->IgnoreTObjectStreamer();
+  StPicoFmsHit::Class()->IgnoreTObjectStreamer();
   StPicoEmcTrigger::Class()->IgnoreTObjectStreamer();
   StPicoMtdTrigger::Class()->IgnoreTObjectStreamer();
   StPicoBTofPidTraits::Class()->IgnoreTObjectStreamer();
@@ -613,6 +620,7 @@ Int_t StPicoDstMaker::MakeWrite()
   fillMtdTrigger();
   fillBTofHits();
   fillMtdHits();
+  fillFmsHits();
 
   if (Debug()) mPicoDst->printTracks();
 
@@ -1174,4 +1182,38 @@ bool StPicoDstMaker::selectVertex()
 
   // Retrun false if selected vertex is not valid
   return selectedVertex ? true : false;
+}
+
+void StPicoDstMaker::fillFmsHits()
+{
+  /*
+  StFmsDbMaker* fmsDb=static_cast<StFmsDbMaker*>(GetMaker("fmsDb"));//can save this into a member variable
+  if(!fmsDb){
+    LOG_ERROR<<"fillFmsHits::Failed to get StFmsDbMaker"<<endm;
+    return;
+  }
+  */
+
+  StEvent* event = (StEvent*) GetInputDS("StEvent");
+  if(!event) {
+    LOG_ERROR << "No StEvent found" << endm;
+    return;
+  }
+  StFmsCollection* fmsColl = event->fmsCollection();
+  if(!fmsColl){
+    LOG_ERROR << "No StFmsCollection found" << endm;
+    return;
+  }
+
+
+  //const int nHits=gRandom->Poisson(10);
+  //LOG_INFO<<"Filling FMS hits. nHits= "<<nHits<<endm;
+  const StSPtrVecFmsHit& hits=fmsColl->hits();
+  for(unsigned int i=0;i<fmsColl->numberOfHits();i++) {
+    const int counter = mPicoArrays[StPicoArrays::FmsHit]->GetEntries();
+    //LOG_INFO<<"counter= "<<counter<<endm;
+    new((*(mPicoArrays[StPicoArrays::FmsHit]))[counter]) StPicoFmsHit(hits[i]->detectorId(),
+                                                                      hits[i]->channel(),
+                                                                      hits[i]->adc());
+  }
 }
